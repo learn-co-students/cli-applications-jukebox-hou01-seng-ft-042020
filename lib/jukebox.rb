@@ -8,6 +8,7 @@
 #
 # puts say_hello(users_name)
 require "pry"
+
 songs = [
   "Phoenix - 1901",
   "Tokyo Police Club - Wait Up",
@@ -31,28 +32,51 @@ end
 
 def list(songs)
   songs.each_with_index do |song, index|
-    # binding.pry
     puts "#{index + 1}. #{song}"
   end
-end
-
-
-def play(songs)
-  puts "Please enter a song name or number:"
-  chosen_song = gets.strip
-  songs.each_with_index do |songs, i|
-    # binding.pry
-    if chosen_song == songs
-      # binding.pry
-      puts "Playing chosen_song"
-      elsif chosen_song == "#{i+1}"
-      # binding.pry
-        puts "Playing #{songs}"
-    end
-  end
-  puts "Invalid input, please try again"
 end
 
 def exit_jukebox
   puts "Goodbye"
 end
+
+def play(songs)
+  puts "Please enter a song name or number:"
+  song_choice = gets.strip
+  if song_choice.to_i >= 1 && song_choice.to_i <= songs.length
+    puts "Playing #{songs[song_choice.to_i - 1]}"
+  elsif songs.index(song_choice) != nil
+    puts "Playing #{song_choice}"
+  else
+    puts "Invalid input, please try again"
+  end
+end
+
+def run(songs)
+  help
+  puts "Please enter a command:"
+  user_response = gets.strip
+  while user_response != "exit"
+    case user_response
+      when "help"
+        help
+        puts "Please enter a command:"
+        user_response = gets.strip
+      when "list"
+        list(songs)
+        puts "Please enter a command:"
+        user_response = gets.strip
+      when "play"
+        play(songs)
+        puts "Please enter a command:"
+        user_response = gets.strip
+      when "exit"
+        exit_jukebox
+      else
+        puts "Invalid input, please try again:"
+        user_response = gets.strip
+      end
+    end
+end 
+
+
